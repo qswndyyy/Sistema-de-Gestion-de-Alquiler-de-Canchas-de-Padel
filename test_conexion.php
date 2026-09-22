@@ -1,5 +1,5 @@
 <?php
-    
+
 require_once "conexion.php";
 
 echo "<h2>Conexión exitosa a la base de datos '$base_datos' ✅</h2>";
@@ -10,7 +10,7 @@ $resultado = $conexion->query("SELECT id_usuario, nombre, email, rol FROM usuari
 if ($resultado->num_rows > 0) {
     echo "<table border='1' cellpadding='8'>";
     echo "<tr><th>ID</th><th>Nombre</th><th>Email</th><th>Rol</th></tr>";
-
+    
     while ($fila = $resultado->fetch_assoc()) {
         echo "<tr>";
         echo "<td>" . $fila["id_usuario"] . "</td>";

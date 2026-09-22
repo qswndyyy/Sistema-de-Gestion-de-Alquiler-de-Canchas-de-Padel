@@ -91,7 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
       categoria: rol === 'cliente' ? 'Sin categoría' : '-'
     };
     db.usuarios.push(usuario);
-
+    
     // Bienvenida: puntos de arranque + primera notificación
     if (rol === 'cliente') {
       db.puntos.push({ id_usuario: usuario.id, cantidad: 50, motivo: 'Bienvenida', fecha: hoyISO() });

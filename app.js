@@ -1512,7 +1512,7 @@ document.getElementById('btnSalir').addEventListener('click', () => {
   cerrarSesion();
   window.location.href = 'index.html';
 });
-
+  
 document.getElementById('btnCampana').addEventListener('click', () => irA('notificaciones'));
 
 // Menú lateral en mobile

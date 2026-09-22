@@ -292,7 +292,7 @@ function ranking(db) {
     })
     .sort((a, b) => b.puntos - a.puntos);
 }
-
+  
 function canchaPorId(db, id) {
   return db.canchas.find(c => c.id === id);
 }

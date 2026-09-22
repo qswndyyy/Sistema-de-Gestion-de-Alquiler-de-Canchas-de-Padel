@@ -6,7 +6,7 @@ $host        = "localhost";
 $usuario     = "root";
 $contrasena  = "";
 $base_datos  = "dbsgacp";
-
+    
 // Creamos la conexión con mysqli
 $conexion = new mysqli($host, $usuario, $contrasena, $base_datos);
 

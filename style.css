@@ -315,7 +315,7 @@ img {
   border-radius: var(--radius);
   transition: border-color 0.25s ease, transform 0.25s ease;
 }
-
+  
 .feature:hover {
   border-color: var(--verde-medio);
   transform: translateY(-4px);

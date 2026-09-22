@@ -205,7 +205,7 @@ CREATE TABLE promociones (
   FOREIGN KEY (id_cancha) REFERENCES canchas(id_cancha)
     ON DELETE CASCADE
 );
-
+  
 -- ==========================================================================
 -- DATOS DE PRUEBA 
 -- ==========================================================================

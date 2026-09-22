@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
     },
     { threshold: 0.5 }
   );
-
+  
   statNumbers.forEach((stat) => observer.observe(stat));
 
 });
