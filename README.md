@@ -1,1 +1,69 @@
-# Sistema-de-Gestion-de-Alquiler-de-Canchas-de-Padel
+PADELCONNECT — Sistema de gestión de alquiler de canchas de pádel
+================================================================
+
+CÓMO LEVANTARLO
+---------------
+1. Copiar la carpeta "padelconnect" dentro de C:\xampp\htdocs\
+2. Abrir XAMPP y prender Apache (y MySQL si van a probar la base).
+3. Entrar a: http://localhost/padelconnect/
+
+También se puede abrir index.html con doble clic, pero conviene usar
+XAMPP porque así funciona igual que en la entrega final con PHP.
+
+BASE DE DATOS (opcional para esta etapa)
+----------------------------------------
+- phpMyAdmin -> Importar -> schema.sql  (crea la base "dbsgacp")
+- test_conexion.php verifica que la conexión ande.
+El front todavía NO consulta la base: trabaja con datos de ejemplo
+guardados en el navegador (data.js). Está hecho así a propósito para
+poder mostrar la app funcionando antes de programar el PHP.
+
+CUENTAS DE PRUEBA (contraseña: 1234)
+------------------------------------
+- juan@demo.com   -> Jugador (cliente)
+- club@demo.com   -> Proveedor de cancha
+- admin@demo.com  -> Administrador
+En la pantalla de login hay botones que las completan solas.
+El botón "Reiniciar datos de demo" (abajo del menú lateral) borra todo
+lo que se haya cargado y vuelve a los datos originales.
+
+LAS VENTANAS
+------------
+index.html  -> Inicio: presentación del producto + prototipo de la app.
+login.html  -> Iniciar sesión y crear cuenta (con elección de rol).
+app.html    -> Panel. Cambia según quién entra:
+               Jugador  : buscar canchas, mis reservas, torneos, ranking,
+                          historial, puntos y premios, notificaciones.
+               Proveedor: reservas recibidas, mis canchas, disponibilidad
+                          y eventos, promociones, ranking.
+               Admin    : reportes, usuarios, torneos, ranking y puntos,
+                          canchas.
+
+ARCHIVOS
+--------
+index.html / login.html / app.html  -> las tres pantallas
+style.css                           -> colores, landing y formularios
+app.css                             -> estilos del panel
+script.js                           -> interacciones del inicio
+data.js                             -> datos de ejemplo y "base" local
+auth.js                             -> login y registro
+app.js                              -> todo el panel (vistas y acciones)
+schema.sql                          -> base de datos dbsgacp
+conexion.php / test_conexion.php    -> conexión PHP a MySQL
+
+DÓNDE ESTÁ CADA REQUERIMIENTO DEL PUNTO 4
+-----------------------------------------
+Calendario con filtros ......... Jugador > Buscar canchas
+Reserva por jugador o equipo ... Jugador > Buscar > click en un turno
+Invitar jugadores .............. Modal de reserva > "Por equipo"
+Pago y división del costo ...... Modal de reserva + Mis reservas
+Torneos personalizados ......... Jugador > Torneos > "Crear torneo"
+Puntos y recompensas ........... Jugador > Puntos y premios
+Historial ...................... Jugador > Historial
+Ranking ........................ Jugador/Proveedor > Ranking
+Panel del proveedor ............ Proveedor > Reservas / Canchas / Eventos
+Notificaciones ................. Campanita arriba a la derecha
+Promociones .................... Proveedor > Promociones (se ven como
+                                 turnos azules con el % en el calendario)
+Roles .......................... Se elige al registrarse; el admin puede
+                                 cambiarlos desde Usuarios.
