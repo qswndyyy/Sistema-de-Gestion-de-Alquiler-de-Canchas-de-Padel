@@ -1,10 +1,3 @@
-/* ==========================================================================
- * app.css — ESTILOS DEL PANEL (app.html)
- *
- * Usa los mismos tokens de color que style.css (verde, negro y azul), pero
- * con una estructura de aplicación: barra superior fija + menú lateral +
- * área de contenido que cambia según la sección.
- * ========================================================================== */
 
 .body--app {
   background-color: var(--negro);

@@ -1,26 +1,21 @@
-/* ==========================================================================
-   PadelConnect — script.js
-   Interacciones base del landing: menú mobile, navbar con fondo al scrollear
-   y contador animado de estadísticas.
-   ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
 
-  /* ---------- 1. Menú hamburguesa (mobile) ---------- */
+  /* ---------- Menú  ---------- */
   const navbar = document.getElementById('navbar');
   const burgerBtn = document.getElementById('burgerBtn');
 
   burgerBtn.addEventListener('click', () => {
-    // Alterna la clase que muestra/oculta el menú (ver style.css → .is-open)
+    
     navbar.classList.toggle('is-open');
   });
 
-  // Cierra el menú al tocar un link (mejor experiencia en mobile)
+  
   document.querySelectorAll('.navbar__links a').forEach((link) => {
     link.addEventListener('click', () => navbar.classList.remove('is-open'));
   });
 
-  /* ---------- 2. Navbar con más opacidad al hacer scroll ---------- */
+  /* ---------- Navbar con más opacidad al hacer scroll ---------- */
   window.addEventListener('scroll', () => {
     if (window.scrollY > 40) {
       navbar.style.backgroundColor = 'rgba(13, 13, 13, 0.95)';
@@ -29,9 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  /* ---------- 3. Contador animado de estadísticas del hero ---------- */
-  // Usamos IntersectionObserver para que el conteo arranque recién cuando
-  // el usuario llega a esa sección, no apenas carga la página.
+  /* ---------- Contador animado de estadísticas del hero ---------- */
+  
   const statNumbers = document.querySelectorAll('.stat__number');
 
   const animarContador = (elemento) => {
@@ -60,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
       entradas.forEach((entrada) => {
         if (entrada.isIntersecting) {
           animarContador(entrada.target);
-          obs.unobserve(entrada.target); // solo se anima una vez
+          obs.unobserve(entrada.target); 
         }
       });
     },

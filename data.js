@@ -1,21 +1,8 @@
-/* ==========================================================================
- * data.js — DATOS Y ALMACENAMIENTO
- *
- * Mientras el back-end en PHP/MySQL no esté terminado, toda la app trabaja
- * con estos datos de demostración guardados en el navegador (localStorage).
- *
- * IMPORTANTE PARA LA ETAPA 2 (PHP):
- * la estructura de cada objeto de acá es la misma que la de las tablas de
- * schema.sql. Cuando conectemos la base real, solo hay que reemplazar
- * leerDB() / guardarDB() por consultas con mysqli; el resto de la app
- * (app.js) no se toca.
- * ========================================================================== */
+
 
 /* --------------------------------------------------------------------------
-   1. ALMACÉN
-   Envolvemos localStorage en un objeto propio porque algunos navegadores lo
-   bloquean cuando el archivo se abre con doble clic (file://). Si falla,
-   guardamos en memoria y la app igual funciona durante esa visita.
+   ALMACÉN
+   
    -------------------------------------------------------------------------- */
 const CLAVE_DB     = 'padelconnect_db_v2';
 const CLAVE_SESION = 'padelconnect_sesion_v2';
@@ -38,7 +25,7 @@ const Almacen = {
 };
 
 /* --------------------------------------------------------------------------
-   2. UTILIDADES DE FECHA
+   UTILIDADES DE FECHA
    -------------------------------------------------------------------------- */
 function hoyISO() {
   const d = new Date();
@@ -66,8 +53,8 @@ function precio(n) {
 }
 
 /* --------------------------------------------------------------------------
-   3. DATOS INICIALES (la "semilla")
-   Se cargan la primera vez que se abre la app; después se usa lo guardado.
+   DATOS INICIALES (la "semilla")
+  
    -------------------------------------------------------------------------- */
 function semilla() {
   return {
@@ -96,7 +83,7 @@ function semilla() {
       { id: 8, id_proveedor: 8, nombre: 'Cancha D', club: 'Norte Pádel', ubicacion: 'Caballito',     tipo: 'Cristal',  techada: true,  precio_hora: 13500, activa: true }
     ],
 
-    /* ---- reservas ya cargadas, para que la demo no arranque vacía ---- */
+    
     reservas: [
       {
         id: 1, id_cancha: 1, id_cliente: 1, fecha: sumarDias(hoyISO(), 1), hora: '20:00',
@@ -174,8 +161,7 @@ function semilla() {
       { id: 1, id_cancha: 2, fecha: sumarDias(hoyISO(), 3), nombre: 'Clínica con profe invitado', desde: '18:00', hasta: '22:00' }
     ],
 
-    /* ---- turnos ya tomados por "otros jugadores": así el calendario se ve
-       realista sin necesidad de cargar reservas a mano ---- */
+    
     ocupados: [],
 
     /* contador para generar ids nuevos, como haría el AUTO_INCREMENT */
@@ -184,13 +170,13 @@ function semilla() {
 }
 
 /* --------------------------------------------------------------------------
-   4. LECTURA / ESCRITURA DE LA "BASE"
+   LECTURA / ESCRITURA DE LA "BASE"
    -------------------------------------------------------------------------- */
 function leerDB() {
   const guardado = Almacen.leer(CLAVE_DB);
   if (guardado) {
     try { return JSON.parse(guardado); }
-    catch (e) { /* si estaba corrupto, regeneramos */ }
+    catch (e) { }
   }
   const nueva = semilla();
   guardarDB(nueva);
@@ -214,8 +200,8 @@ function reiniciarDemo() {
 }
 
 /* --------------------------------------------------------------------------
-   5. SESIÓN
-   Guardamos solo el id del usuario; los datos se buscan en la "base".
+   SESIÓN
+   
    -------------------------------------------------------------------------- */
 function guardarSesion(idUsuario) {
   Almacen.escribir(CLAVE_SESION, String(idUsuario));
@@ -232,16 +218,8 @@ function cerrarSesion() {
 }
 
 /* --------------------------------------------------------------------------
-   6. DISPONIBILIDAD (el corazón del calendario)
+   DISPONIBILIDAD (el corazón del calendario)
 
-   Un turno puede estar:
-   - 'ocupado'  -> ya hay una reserva confirmada o un evento especial
-   - 'promo'    -> libre y además cae dentro de una promoción vigente
-   - 'libre'    -> disponible al precio normal
-
-   Para que la grilla se vea realista usamos una función determinística
-   (mismo resultado siempre para la misma cancha + fecha + hora) en lugar de
-   Math.random(), que haría "saltar" los turnos en cada re-dibujado.
    -------------------------------------------------------------------------- */
 const HORAS = ['08:00','09:00','10:00','11:00','12:00','13:00','14:00','15:00',
                '16:00','17:00','18:00','19:00','20:00','21:00','22:00','23:00'];
@@ -295,7 +273,7 @@ function turnosDe(db, cancha, fecha, idUsuario) {
 }
 
 /* --------------------------------------------------------------------------
-   7. CONSULTAS DERIVADAS (ranking, puntos, etc.)
+   CONSULTAS DERIVADAS (ranking, puntos, etc.)
    -------------------------------------------------------------------------- */
 function puntosDe(db, idUsuario) {
   return db.puntos

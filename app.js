@@ -1,22 +1,5 @@
 /* ==========================================================================
- * app.js — PANEL DE LA APLICACIÓN
- *
- * Una sola página (app.html) que dibuja distintas "ventanas" según:
- *   1) el rol del usuario logueado (cliente / proveedor / administrador)
- *   2) la ruta del hash de la URL (#/buscar, #/reservas, #/torneos, ...)
- *
- * Organización del archivo:
- *   A. Arranque y sesión
- *   B. Menús por rol + ruteo
- *   C. Helpers de interfaz (modal, avisos, notificaciones, puntos)
- *   D. Vistas del CLIENTE
- *   E. Vistas del PROVEEDOR
- *   F. Vistas del ADMINISTRADOR
- *   G. Acciones (todo lo que pasa al hacer clic)
- * ========================================================================== */
-
-/* ==========================================================================
-   A. ARRANQUE Y SESIÓN
+   ARRANQUE Y SESIÓN
    ========================================================================== */
 let db = leerDB();
 let yo = usuarioActual();
@@ -35,8 +18,7 @@ const ui = {
 };
 
 /* ==========================================================================
-   B. MENÚS POR ROL Y RUTEO
-   Cada entrada: [ruta, ícono, etiqueta]. La primera es la vista por defecto.
+   MENÚS POR ROL Y RUTEO
    ========================================================================== */
 const MENUS = {
   cliente: [
@@ -113,7 +95,7 @@ function dibujarBadge() {
 }
 
 /* ==========================================================================
-   C. HELPERS DE INTERFAZ
+   HELPERS DE INTERFAZ
    ========================================================================== */
 
 /* Aviso corto abajo a la derecha. Se borra solo a los 3 segundos. */
@@ -151,9 +133,7 @@ function notificar(dbRef, idUsuario, mensaje, tipo) {
 
 /* --------------------------------------------------------------------------
    SIMULACIÓN DE PAGO
-   No hay ningún cobro real: esto es una maqueta para mostrar el flujo de
-   pago tal como se vería con una pasarela real (alias, monto, confirmación
-   y una ventana de agradecimiento antes de completar la acción).
+
    -------------------------------------------------------------------------- */
 function generarAliasPago() {
   const palabras = ['padel', 'smash', 'drive', 'net', 'ace', 'cancha'];
@@ -249,15 +229,13 @@ function vacio(texto, boton = '') {
 }
 
 /* ==========================================================================
-   D. VISTAS DEL CLIENTE
+   VISTAS DEL CLIENTE
    ========================================================================== */
 const VISTAS = {};
 
 /* -------------------------------------------------------------------------
-   D1. BUSCAR CANCHAS
-   Calendario de disponibilidad con filtros por ubicación, fecha, horario y
-   tipo de cancha. Cada cancha muestra su fila de turnos: verde = libre,
-   azul = promoción, gris = ocupado.
+   BUSCAR CANCHAS
+   Calendario de disponibilidad con filtros.
    ------------------------------------------------------------------------- */
 VISTAS.buscar = function () {
   const f = ui.filtros;
@@ -266,16 +244,13 @@ VISTAS.buscar = function () {
   const ubicaciones = [...new Set(db.canchas.map(c => c.ubicacion))];
   const tipos       = [...new Set(db.canchas.map(c => c.tipo))];
 
-  // Tira de 7 días para elegir fecha rápido
   const dias = Array.from({ length: 7 }, (_, i) => sumarDias(hoyISO(), i));
 
-  // Aplicamos los filtros de ubicación y tipo
   const canchas = db.canchas.filter(c =>
     c.activa &&
     (f.ubicacion === 'todas' || c.ubicacion === f.ubicacion) &&
     (f.tipo === 'todos' || c.tipo === f.tipo));
 
-  // Filtro de franja horaria: mañana (8-12), tarde (13-18), noche (19-23)
   const enFranja = hora => {
     const h = parseInt(hora, 10);
     if (f.franja === 'manana') return h >= 8 && h <= 12;
@@ -368,8 +343,7 @@ VISTAS.buscar = function () {
 };
 
 /* -------------------------------------------------------------------------
-   D2. MIS RESERVAS
-   Muestra reserva por reserva quién juega, cuánto paga cada uno y qué falta.
+   MIS RESERVAS
    ------------------------------------------------------------------------- */
 VISTAS.reservas = function () {
   // Son "mías" las que creé y también en las que me invitaron
@@ -438,7 +412,7 @@ VISTAS.reservas = function () {
 };
 
 /* -------------------------------------------------------------------------
-   D3. TORNEOS
+   TORNEOS
    ------------------------------------------------------------------------- */
 VISTAS.torneos = function () {
   const tarjetas = db.torneos.map(t => {
@@ -475,7 +449,7 @@ VISTAS.torneos = function () {
 };
 
 /* -------------------------------------------------------------------------
-   D4. RANKING (lo ven cliente y proveedor)
+   RANKING (lo ven cliente y proveedor)
    ------------------------------------------------------------------------- */
 VISTAS.ranking = function () {
   const tabla = ranking(db);
@@ -500,7 +474,7 @@ VISTAS.ranking = function () {
 };
 
 /* -------------------------------------------------------------------------
-   D5. HISTORIAL DE PARTIDOS
+   HISTORIAL DE PARTIDOS
    ------------------------------------------------------------------------- */
 VISTAS.historial = function () {
   const mios    = db.partidos.filter(p => p.id_usuario === yo.id);
@@ -533,7 +507,7 @@ VISTAS.historial = function () {
 };
 
 /* -------------------------------------------------------------------------
-   D6. PUNTOS Y RECOMPENSAS
+   PUNTOS Y RECOMPENSAS
    ------------------------------------------------------------------------- */
 VISTAS.puntos = function () {
   const total = puntosDe(db, yo.id);
@@ -577,7 +551,7 @@ VISTAS.puntos = function () {
 };
 
 /* -------------------------------------------------------------------------
-   D7. NOTIFICACIONES (la usan los 3 roles)
+   NOTIFICACIONES (la usan los 3 roles)
    ------------------------------------------------------------------------- */
 VISTAS.notificaciones = function () {
   const mias = db.notificaciones.filter(n => n.id_usuario === yo.id).slice().reverse();
@@ -599,7 +573,7 @@ VISTAS.notificaciones = function () {
 };
 
 /* ==========================================================================
-   E. VISTAS DEL PROVEEDOR DE CANCHA
+   VISTAS DEL PROVEEDOR DE CANCHA
    ========================================================================== */
 
 /* Canchas que pertenecen al proveedor logueado */
@@ -608,7 +582,7 @@ function misCanchas() {
 }
 
 /* -------------------------------------------------------------------------
-   E1. RESERVAS RECIBIDAS
+   RESERVAS RECIBIDAS
    ------------------------------------------------------------------------- */
 VISTAS.agenda = function () {
   const ids = misCanchas().map(c => c.id);
@@ -656,7 +630,7 @@ VISTAS.agenda = function () {
 };
 
 /* -------------------------------------------------------------------------
-   E2. MIS CANCHAS (alta, baja y precio)
+   MIS CANCHAS (alta, baja y precio)
    ------------------------------------------------------------------------- */
 VISTAS.canchas = function () {
   const canchas = misCanchas();
@@ -683,8 +657,7 @@ VISTAS.canchas = function () {
 };
 
 /* -------------------------------------------------------------------------
-   E3. DISPONIBILIDAD Y EVENTOS ESPECIALES
-   Un evento bloquea el horario de una cancha (clínica, torneo interno, etc.).
+   DISPONIBILIDAD Y EVENTOS ESPECIALES
    ------------------------------------------------------------------------- */
 VISTAS.eventos = function () {
   const ids = misCanchas().map(c => c.id);
@@ -711,7 +684,7 @@ VISTAS.eventos = function () {
 };
 
 /* -------------------------------------------------------------------------
-   E4. PROMOCIONES
+   PROMOCIONES
    ------------------------------------------------------------------------- */
 VISTAS.promos = function () {
   const promos = db.promociones.filter(p => p.id_proveedor === yo.id);
@@ -743,17 +716,15 @@ VISTAS.promos = function () {
 };
 
 /* ==========================================================================
-   F. VISTAS DEL ADMINISTRADOR
+   VISTAS DEL ADMINISTRADOR
    ========================================================================== */
 
 /* -------------------------------------------------------------------------
-   F1. REPORTES
+   REPORTES
    ------------------------------------------------------------------------- */
 VISTAS.reportes = function () {
   const activas  = db.reservas.filter(r => r.estado !== 'cancelada');
   const ingresos = activas.reduce((t, r) => t + r.total, 0);
-
-  // Reservas por zona, para el gráfico de barras hecho con CSS
   const porZona = {};
   activas.forEach(r => {
     const c = canchaPorId(db, r.id_cancha);
@@ -784,7 +755,7 @@ VISTAS.reportes = function () {
 };
 
 /* -------------------------------------------------------------------------
-   F2. USUARIOS
+   USUARIOS
    ------------------------------------------------------------------------- */
 VISTAS.usuarios = function () {
   return encabezado('Usuarios', 'Todas las cuentas del sistema. Podés cambiar el rol o dar de baja.') + `
@@ -813,7 +784,7 @@ VISTAS.usuarios = function () {
 };
 
 /* -------------------------------------------------------------------------
-   F3. TORNEOS (moderación)
+   TORNEOS (moderación)
    ------------------------------------------------------------------------- */
 VISTAS.adminTorneos = function () {
   return encabezado('Torneos', 'Supervisá los torneos creados por clubes y jugadores.') + `
@@ -839,7 +810,7 @@ VISTAS.adminTorneos = function () {
 };
 
 /* -------------------------------------------------------------------------
-   F4. RANKING Y PUNTOS (ajuste manual)
+   RANKING Y PUNTOS (ajuste manual)
    ------------------------------------------------------------------------- */
 VISTAS.adminPuntos = function () {
   const tabla = ranking(db);
@@ -865,7 +836,7 @@ VISTAS.adminPuntos = function () {
 };
 
 /* -------------------------------------------------------------------------
-   F5. CANCHAS (vista global del administrador)
+   CANCHAS (vista global del administrador)
    ------------------------------------------------------------------------- */
 VISTAS.adminCanchas = function () {
   return encabezado('Canchas', 'Todas las canchas cargadas por los proveedores.') + `
@@ -887,9 +858,7 @@ VISTAS.adminCanchas = function () {
 };
 
 /* ==========================================================================
-   G. ACCIONES
-   Un solo listener para toda la vista (delegación de eventos): leemos el
-   atributo data-accion del elemento clickeado y decidimos qué hacer.
+   ACCIONES
    ========================================================================== */
 $vista.addEventListener('click', e => {
   const el = e.target.closest('[data-accion]');
@@ -954,7 +923,7 @@ $vista.addEventListener('click', e => {
   }
 });
 
-/* Los filtros son <select>/<input>, así que escuchamos "change" aparte */
+
 $vista.addEventListener('change', e => {
   const filtro = e.target.dataset.filtro;
   if (filtro) {
@@ -984,7 +953,7 @@ $sidebar.addEventListener('click', e => {
 });
 
 /* --------------------------------------------------------------------------
-   G1. RESERVA: modal con división automática del costo
+   RESERVA: modal con división automática del costo
    -------------------------------------------------------------------------- */
 function abrirModalReserva(idCancha, hora) {
   const c = canchaPorId(db, idCancha);
@@ -1041,8 +1010,7 @@ function abrirModalReserva(idCancha, hora) {
 
   function actualizar() {
     const tipoInput = document.querySelector('input[name="tipo"]:checked');
-    // El modal de pago reutiliza el mismo contenedor: si ya no está el radio
-    // de tipo es porque estamos en ese paso, no en el de reserva.
+  
     if (!tipoInput) return;
     const tipo = tipoInput.value;
     ui.reserva.tipo = tipo; // lo guardamos porque el modal de pago reemplaza este DOM
@@ -1060,8 +1028,7 @@ function abrirModalReserva(idCancha, hora) {
       <div class="resumen__destacado"><span>Te toca pagar</span><strong>${precio(porCabeza)}</strong></div>`;
   }
 
-  // El contenedor del modal es siempre el mismo elemento, así que sacamos el
-  // listener anterior antes de poner el nuevo (si no, se van acumulando).
+
   const cont = document.getElementById('modalContenido');
   if (ui.handlerModal) cont.removeEventListener('change', ui.handlerModal);
   ui.handlerModal = actualizar;
@@ -1123,7 +1090,7 @@ function confirmarReserva() {
 }
 
 /* --------------------------------------------------------------------------
-   G2. PAGOS
+   PAGOS
    -------------------------------------------------------------------------- */
 function pagarMiParte(idReserva) {
   db = leerDB();
@@ -1183,7 +1150,7 @@ function cambiarEstadoReserva(idReserva, estado) {
 }
 
 /* --------------------------------------------------------------------------
-   G3. TORNEOS
+   TORNEOS
    -------------------------------------------------------------------------- */
 function inscribirse(idTorneo, entrar) {
   db = leerDB();
@@ -1280,7 +1247,7 @@ function cambiarEstadoTorneo(id, estado) {
 }
 
 /* --------------------------------------------------------------------------
-   G4. PUNTOS Y RECOMPENSAS
+   PUNTOS Y RECOMPENSAS
    -------------------------------------------------------------------------- */
 function canjear(idRecompensa) {
   db = leerDB();
@@ -1307,7 +1274,7 @@ function ajustarPuntos(idUsuario, cantidad) {
 }
 
 /* --------------------------------------------------------------------------
-   G5. GESTIÓN DEL PROVEEDOR
+   GESTIÓN DEL PROVEEDOR
    -------------------------------------------------------------------------- */
 function abrirModalCancha() {
   abrirModal(`
@@ -1525,7 +1492,7 @@ function togglePromo(id) {
 }
 
 /* --------------------------------------------------------------------------
-   G6. ADMINISTRADOR
+   ADMINISTRADOR
    -------------------------------------------------------------------------- */
 function borrarUsuario(id) {
   const u = usuarioPorId(db, id);
@@ -1539,7 +1506,7 @@ function borrarUsuario(id) {
 }
 
 /* ==========================================================================
-   H. BARRA SUPERIOR
+   BARRA SUPERIOR
    ========================================================================== */
 document.getElementById('btnSalir').addEventListener('click', () => {
   cerrarSesion();

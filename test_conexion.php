@@ -1,10 +1,5 @@
 <?php
-/* ==========================================================================
- * test_conexion.php
- * Página simple para comprobar que PHP se conecta bien a "dbsgacp".
- * Una vez que confirmes que funciona, podés borrar este archivo.
- * ========================================================================== */
-
+    
 require_once "conexion.php";
 
 echo "<h2>Conexión exitosa a la base de datos '$base_datos' ✅</h2>";

@@ -1,12 +1,3 @@
--- ==========================================================================
--- PadelConnect — Base de datos
--- Motor: MySQL (pensado para usar con XAMPP)
--- ==========================================================================
--- Este script crea la base de datos completa según las funcionalidades
--- definidas en el documento funcional: usuarios y roles, canchas, reservas
--- (individuales y en equipo), pagos divididos, torneos, historial, ranking,
--- puntos/recompensas, notificaciones y promociones.
--- ==========================================================================
 
 CREATE DATABASE IF NOT EXISTS dbsgacp
   CHARACTER SET utf8mb4
@@ -15,9 +6,8 @@ CREATE DATABASE IF NOT EXISTS dbsgacp
 USE dbsgacp;
 
 -- ==========================================================================
--- 1. USUARIOS
--- Guarda a los tres roles del sistema en una sola tabla, diferenciados por
--- la columna "rol". Así evitamos duplicar login/contraseña en 3 tablas.
+-- USUARIOS
+--
 -- ==========================================================================
 CREATE TABLE usuarios (
   id_usuario      INT AUTO_INCREMENT PRIMARY KEY,
@@ -29,8 +19,8 @@ CREATE TABLE usuarios (
 );
 
 -- ==========================================================================
--- 2. CANCHAS
--- Cada cancha pertenece a un usuario con rol "proveedor".
+-- CANCHAS
+-- 
 -- ==========================================================================
 CREATE TABLE canchas (
   id_cancha    INT AUTO_INCREMENT PRIMARY KEY,
@@ -46,9 +36,8 @@ CREATE TABLE canchas (
 );
 
 -- ==========================================================================
--- 3. RESERVAS
--- Una reserva se hace sobre una cancha, en una franja horaria puntual.
--- "id_cliente" es quien creó la reserva (el organizador del partido).
+-- RESERVAS
+-- 
 -- ==========================================================================
 CREATE TABLE reservas (
   id_reserva   INT AUTO_INCREMENT PRIMARY KEY,
@@ -68,9 +57,8 @@ CREATE TABLE reservas (
 );
 
 -- ==========================================================================
--- 4. JUGADORES POR RESERVA
--- Tabla intermedia: permite invitar varios jugadores a una misma reserva
--- y saber cuánto le toca pagar a cada uno.
+-- JUGADORES POR RESERVA
+-- 
 -- ==========================================================================
 CREATE TABLE reserva_jugadores (
   id_reserva      INT NOT NULL,
@@ -86,16 +74,15 @@ CREATE TABLE reserva_jugadores (
 );
 
 -- ==========================================================================
--- 5. PAGOS
--- Registra cada pago individual dentro de una reserva (la división del
--- costo se resuelve en la app; acá solo queda el registro de cada cobro).
+-- PAGOS
+-- 
 -- ==========================================================================
 CREATE TABLE pagos (
   id_pago     INT AUTO_INCREMENT PRIMARY KEY,
   id_reserva  INT NOT NULL,
   id_usuario  INT NOT NULL,
   monto       DECIMAL(10,2) NOT NULL,
-  metodo      VARCHAR(50) NOT NULL,           -- ej: "tarjeta", "mercado pago"
+  metodo      VARCHAR(50) NOT NULL,   
   estado      ENUM('pendiente', 'aprobado', 'rechazado') NOT NULL DEFAULT 'pendiente',
   fecha_pago  DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -106,13 +93,13 @@ CREATE TABLE pagos (
 );
 
 -- ==========================================================================
--- 6. TORNEOS
+-- TORNEOS
 -- ==========================================================================
 CREATE TABLE torneos (
   id_torneo    INT AUTO_INCREMENT PRIMARY KEY,
   nombre       VARCHAR(100) NOT NULL,
   descripcion  TEXT,
-  id_creador   INT NOT NULL,                  -- usuario que creó el torneo
+  id_creador   INT NOT NULL,                 
   fecha_inicio DATE NOT NULL,
   fecha_fin    DATE NOT NULL,
 
@@ -133,16 +120,15 @@ CREATE TABLE torneo_participantes (
 );
 
 -- ==========================================================================
--- 7. HISTORIAL DE PARTIDOS
--- Guarda el resultado de cada partido jugado, sea de una reserva suelta o
--- de un torneo (por eso "id_torneo" puede ser NULL).
+-- HISTORIAL DE PARTIDOS
+-- 
 -- ==========================================================================
 CREATE TABLE partidos (
   id_partido   INT AUTO_INCREMENT PRIMARY KEY,
   id_reserva   INT NULL,
   id_torneo    INT NULL,
-  id_ganador   INT NULL,                      -- usuario o capitán del equipo ganador
-  resultado    VARCHAR(50),                   -- ej: "6-3 / 6-4"
+  id_ganador   INT NULL,                   
+  resultado    VARCHAR(50),                  
   fecha        DATE NOT NULL,
 
   FOREIGN KEY (id_reserva) REFERENCES reservas(id_reserva)
@@ -154,9 +140,8 @@ CREATE TABLE partidos (
 );
 
 -- ==========================================================================
--- 8. PUNTOS Y RANKING
--- "puntos" guarda cada movimiento (histórico); el ranking se calcula sumando
--- esta tabla, así queda registro de por qué cada usuario tiene esos puntos.
+-- PUNTOS Y RANKING
+-- 
 -- ==========================================================================
 CREATE TABLE puntos (
   id_punto    INT AUTO_INCREMENT PRIMARY KEY,
@@ -170,7 +155,7 @@ CREATE TABLE puntos (
 );
 
 -- ==========================================================================
--- 9. NOTIFICACIONES
+-- NOTIFICACIONES
 -- ==========================================================================
 CREATE TABLE notificaciones (
   id_notificacion INT AUTO_INCREMENT PRIMARY KEY,
@@ -185,13 +170,8 @@ CREATE TABLE notificaciones (
 );
 
 -- ==========================================================================
--- 10. PROMOCIONES
--- Creadas por un proveedor, para una cancha puntual o para todas las suyas.
--- ==========================================================================
--- ---------------------------------------------------------------------------
--- EVENTOS ESPECIALES
--- Bloquean el horario de una cancha (clínicas, torneos internos,
--- mantenimiento). Mientras dura el evento, ese turno no se puede reservar.
+-- PROMOCIONES
+--
 -- ---------------------------------------------------------------------------
 CREATE TABLE eventos (
   id_evento  INT AUTO_INCREMENT PRIMARY KEY,
@@ -208,13 +188,13 @@ CREATE TABLE eventos (
 CREATE TABLE promociones (
   id_promocion  INT AUTO_INCREMENT PRIMARY KEY,
   id_proveedor  INT NOT NULL,
-  id_cancha     INT NULL,                     -- NULL = aplica a todas las canchas del proveedor
+  id_cancha     INT NULL,                    
   descripcion   VARCHAR(255) NOT NULL,
   descuento_pct DECIMAL(5,2) NOT NULL,        -- ej: 20.00 = 20% de descuento
   tipo          ENUM('horario', 'frecuentes') NOT NULL DEFAULT 'horario',
                                               -- 'horario'    = promo por hora de baja demanda
                                               -- 'frecuentes' = solo para jugadores que juegan seguido
-  hora_desde    TIME NOT NULL DEFAULT '00:00:00',  -- franja en la que se aplica el descuento
+  hora_desde    TIME NOT NULL DEFAULT '00:00:00', 
   hora_hasta    TIME NOT NULL DEFAULT '23:59:00',
   activa        BOOLEAN NOT NULL DEFAULT TRUE,
   fecha_inicio  DATE NOT NULL,
@@ -227,7 +207,7 @@ CREATE TABLE promociones (
 );
 
 -- ==========================================================================
--- DATOS DE PRUEBA (opcional, para probar el sistema mientras se desarrolla)
+-- DATOS DE PRUEBA 
 -- ==========================================================================
 INSERT INTO usuarios (nombre, email, contrasena_hash, rol) VALUES
 ('Wendy Quispe', 'wendy@dbsgacp.com', 'hash_de_prueba_1', 'cliente'),

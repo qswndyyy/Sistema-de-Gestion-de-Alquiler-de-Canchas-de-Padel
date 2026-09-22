@@ -1,12 +1,6 @@
 /* ==========================================================================
  * auth.js — INICIO DE SESIÓN Y REGISTRO (ventana 2)
- *
- * Valida contra la lista de usuarios de data.js y, si está todo bien,
- * guarda la sesión y manda al panel (app.html).
- *
- * NOTA PARA LA ETAPA PHP: acá la contraseña se compara en texto plano solo
- * porque es una demo sin servidor. En la versión real se usa
- * password_verify() contra el campo contrasena_hash de la tabla usuarios.
+ 
  * ========================================================================== */
 
 document.addEventListener('DOMContentLoaded', () => {
