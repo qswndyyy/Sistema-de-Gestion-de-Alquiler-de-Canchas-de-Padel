@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PadelConnect — Reservá, jugá, competí</title>
+  <link rel="icon" href="assets/favicon.png" />
+
+  <!-- Fuente única del sitio: Space Grotesk -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+       Los botones de la derecha ya apuntan a login.html (ventana 2).
+       ============================================================ -->
+  <header class="navbar" id="navbar">
+    <div class="navbar__inner">
+      <a href="#top" class="navbar__logo">
+        <img src="assets/logo.png" alt="PadelConnect" />
+      </a>
+
+      <nav class="navbar__links" id="navLinks">
+        <a href="#funcionalidades">Funcionalidades</a>
+        <a href="#prototipo">Prototipo</a>
+        <a href="#roles">Para quién es</a>
+        <a href="#promociones">Promociones</a>
+        <a href="#como-funciona">Cómo funciona</a>
+      </nav>
+
+      <div class="navbar__actions">
+        <a href="login.html" class="btn btn--ghost">Iniciar sesión</a>
+        <a href="login.html?modo=registro" class="btn btn--primary">Crear cuenta</a>
+      </div>
+
+      <button class="navbar__burger" id="burgerBtn" aria-label="Abrir menú">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="hero" id="top">
+    <div class="hero__blob" aria-hidden="true"></div>
+
+    <div class="hero__content">
+      <p class="hero__eyebrow">Gestión de canchas de pádel</p>
+      <h1 class="hero__title">Coordinar un partido no debería tardar más que jugarlo.</h1>
+      <p class="hero__subtitle">
+        Reservá cancha, sumá jugadores, dividí el pago y llevá tu historial y ranking,
+        todo desde un mismo lugar.
+      </p>
+
+      <div class="hero__cta">
+        <a href="login.html?modo=registro" class="btn btn--primary btn--lg">Crear cuenta</a>
+        <a href="#prototipo" class="btn btn--ghost btn--lg">Probar el prototipo</a>
+      </div>
+
+      <div class="hero__stats">
+        <div class="stat">
+          <span class="stat__number" data-count="120">0</span>
+          <span class="stat__label">Canchas disponibles</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number" data-count="3400">0</span>
+          <span class="stat__label">Partidos jugados</span>
+        </div>
+        <div class="stat">
+          <span class="stat__number" data-count="850">0</span>
+          <span class="stat__label">Jugadores activos</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FUNCIONALIDADES
+       Cada tarjeta corresponde a un requerimiento del punto 4 del
+       documento, así se ve la trazabilidad enunciado -> producto.
+       ============================================================ -->
+  <section class="section" id="funcionalidades">
+    <div class="section__header">
+      <h2>Todo lo que necesitás para jugar, sin fricción</h2>
+      <p>Pensado para resolver lo que hoy se coordina a los ponchazos por chat.</p>
+    </div>
+
+    <div class="features">
+      <article class="feature">
+        <div class="feature__icon">📅</div>
+        <h3>Calendario con filtros</h3>
+        <p>Buscá por ubicación, horario y tipo de cancha, y reservá en segundos.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__icon">👥</div>
+        <h3>Reserva por equipo</h3>
+        <p>Invitá a otros jugadores a tu reserva y armen el partido juntos.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__icon">💳</div>
+        <h3>Pago dividido</h3>
+        <p>El costo se reparte automáticamente entre todos. Se acabó el "quién le debe a quién".</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__icon">🏆</div>
+        <h3>Torneos y ranking</h3>
+        <p>Creá torneos personalizados y subí en el ranking con cada victoria.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__icon">⭐</div>
+        <h3>Puntos y recompensas</h3>
+        <p>Ganá puntos por jugar seguido y canjealos por beneficios.</p>
+      </article>
+
+      <article class="feature">
+        <div class="feature__icon">🔔</div>
+        <h3>Notificaciones</h3>
+        <p>Enterate al instante de cambios en tu reserva, recordatorios y resultados.</p>
+      </article>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PROTOTIPO
+       Vista previa "congelada" de la app real: muestra la pantalla
+       de búsqueda de canchas sin necesidad de iniciar sesión.
+       ============================================================ -->
+  <section class="section section--dark" id="prototipo">
+    <div class="section__header">
+      <h2>Así se ve por dentro</h2>
+      <p>Una muestra de la pantalla de reservas. Entrá con una cuenta de prueba para usarla completa.</p>
+    </div>
+
+    <div class="preview">
+      <!-- Barra superior falsa, imita la ventana del navegador -->
+      <div class="preview__bar">
+        <span></span><span></span><span></span>
+        <p class="preview__url">padelconnect / buscar canchas</p>
+      </div>
+
+      <div class="preview__body">
+        <div class="preview__filters">
+          <span class="chip chip--filtro">📍 Palermo</span>
+          <span class="chip chip--filtro">📆 Hoy</span>
+          <span class="chip chip--filtro">🌙 Noche</span>
+          <span class="chip chip--filtro">🎾 Cristal</span>
+        </div>
+
+        <div class="preview__card">
+          <div>
+            <h3>Cancha 1 — Club Nogal</h3>
+            <p>Palermo · Cristal techada · $14.000 / hora</p>
+          </div>
+          <div class="preview__slots">
+            <span class="chip chip--libre">19:00</span>
+            <span class="chip chip--promo">20:00 −20%</span>
+            <span class="chip chip--ocupado">21:00</span>
+            <span class="chip chip--libre">22:00</span>
+          </div>
+        </div>
+
+        <div class="preview__card">
+          <div>
+            <h3>Cancha 3 — Norte Pádel</h3>
+            <p>Belgrano · Cemento al aire libre · $11.500 / hora</p>
+          </div>
+          <div class="preview__slots">
+            <span class="chip chip--ocupado">19:00</span>
+            <span class="chip chip--libre">20:00</span>
+            <span class="chip chip--libre">21:00</span>
+            <span class="chip chip--promo">23:00 −30%</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="preview__cta">
+      <a href="login.html" class="btn btn--primary btn--lg">Entrar al prototipo</a>
+      <p class="preview__hint">Cuentas de prueba listas para usar: jugador, proveedor y administrador.</p>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       ROLES
+       ============================================================ -->
+  <section class="section" id="roles">
+    <div class="section__header">
+      <p class="eyebrow">Para quién es</p>
+      <h2>Dos roles, cada uno con lo que necesita</h2>
+    </div>
+
+    <div class="roles roles--dos">
+      <div class="role">
+        <span class="role__tag">Cliente</span>
+        <p>Reservá canchas, armá equipos, pagá dividido y seguí tu historial y ranking.</p>
+      </div>
+      <div class="role">
+        <span class="role__tag">Proveedor de cancha</span>
+        <p>Gestioná disponibilidad, reservas, eventos especiales y promociones desde tu panel.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       PROMOCIONES
+       Una promo de ejemplo tal como la vería un jugador, con imagen,
+       para que se entienda de un vistazo sin romper la estética dark.
+       ============================================================ -->
+  <section class="section section--dark" id="promociones">
+    <div class="section__header">
+      <p class="eyebrow eyebrow--light">Promociones</p>
+      <h2>Descuentos reales para llenar los horarios flojos</h2>
+      <p>Los proveedores publican promos desde su panel y el jugador las ve así en el calendario.</p>
+    </div>
+
+    <div class="promo-destacada">
+      <div class="promo-destacada__img">
+        <img src="assets/hero-cancha.jpg" alt="Cancha de pádel de Norte Pádel" />
+        <span class="promo-destacada__pct">−30%</span>
+      </div>
+      <div class="promo-destacada__info">
+        <span class="chip chip--promo">Horario de baja demanda</span>
+        <h3>Noches de miércoles en Norte Pádel</h3>
+        <p>30% de descuento en la Cancha 3 (cemento al aire libre) de 21:00 a 23:00.
+          Válida para todos los jugadores, se aplica sola al reservar ese turno.</p>
+        <div class="promo-destacada__meta">
+          <span>📍 Belgrano</span>
+          <span>🕘 Miércoles 21:00–23:00</span>
+          <span>🎾 Cemento al aire libre</span>
+        </div>
+        <a href="login.html?modo=registro" class="btn btn--primary">Reservar con la promo</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       CÓMO FUNCIONA (esto sí es una secuencia, por eso va numerado)
+       ============================================================ -->
+  <section class="section section--dark" id="como-funciona">
+    <div class="section__header">
+      <h2>De la idea a la cancha, en 3 pasos</h2>
+    </div>
+
+    <div class="steps">
+      <div class="step">
+        <span class="step__number">1</span>
+        <h3>Elegí tu cancha</h3>
+        <p>Filtrá por zona, horario y tipo de cancha en el calendario.</p>
+      </div>
+      <div class="step">
+        <span class="step__number">2</span>
+        <h3>Sumá tu equipo</h3>
+        <p>Invitá jugadores y el sistema divide el costo entre todos.</p>
+      </div>
+      <div class="step">
+        <span class="step__number">3</span>
+        <h3>Jugá y sumá puntos</h3>
+        <p>El resultado queda en tu historial y suma al ranking.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <footer class="footer">
+    <div class="footer__inner">
+      <a href="#top" class="navbar__logo">
+        <img src="assets/logo.png" alt="PadelConnect" />
+      </a>
+      <p>&copy; 2026 PadelConnect. Hecho por Noelia Guarachi, Wendy Quispe, Dylan Siñani y Yoselin Vega.</p>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,641 @@
+/* ==========================================================================
+ * app.css — ESTILOS DEL PANEL (app.html)
+ *
+ * Usa los mismos tokens de color que style.css (verde, negro y azul), pero
+ * con una estructura de aplicación: barra superior fija + menú lateral +
+ * área de contenido que cambia según la sección.
+ * ========================================================================== */
+
+.body--app {
+  background-color: var(--negro);
+  min-height: 100vh;
+}
+
+/* ==========================================================================
+   BARRA SUPERIOR
+   ========================================================================== */
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.85rem 1.5rem;
+  background-color: rgba(13, 13, 13, 0.9);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(244, 244, 242, 0.08);
+}
+
+.topbar__derecha { margin-left: auto; display: flex; align-items: center; gap: 1rem; }
+
+.topbar__burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+.topbar__burger span { width: 22px; height: 2px; background-color: var(--hueso); }
+
+/* Campanita con contador de notificaciones sin leer */
+.campana {
+  position: relative;
+  background: none;
+  border: none;
+  font-size: 1.15rem;
+  cursor: pointer;
+  line-height: 1;
+}
+
+.campana__badge {
+  position: absolute;
+  top: -6px;
+  right: -8px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+  border-radius: 999px;
+  background-color: var(--azul);
+  color: var(--negro);
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+.usuario { display: flex; flex-direction: column; line-height: 1.2; }
+.usuario__nombre { font-weight: 600; font-size: 0.92rem; }
+.usuario__rol    { font-size: 0.78rem; color: var(--verde-medio); }
+
+/* ==========================================================================
+   ESTRUCTURA: MENÚ LATERAL + CONTENIDO
+   ========================================================================== */
+.layout {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  min-height: calc(100vh - 62px);
+}
+
+.sidebar {
+  border-right: 1px solid rgba(244, 244, 242, 0.08);
+  padding: 1.25rem 0.85rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar__item {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  font-size: 0.93rem;
+  color: var(--gris-texto);
+  transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.sidebar__item:hover { background-color: rgba(244, 244, 242, 0.05); color: var(--hueso); }
+
+/* Sección activa: borde azul a la izquierda, sin adornos extra */
+.sidebar__item.is-active {
+  background-color: rgba(64, 145, 108, 0.14);
+  color: var(--hueso);
+  box-shadow: inset 3px 0 0 var(--azul);
+}
+
+.sidebar__icono { font-size: 1rem; }
+
+.sidebar__reset {
+  margin-top: auto;
+  background: none;
+  border: 1px dashed rgba(244, 244, 242, 0.18);
+  color: var(--gris-texto);
+  font-family: inherit;
+  font-size: 0.78rem;
+  padding: 0.6rem;
+  border-radius: 10px;
+  cursor: pointer;
+}
+.sidebar__reset:hover { color: var(--hueso); border-color: var(--verde-medio); }
+
+.vista { padding: 2rem 2rem 4rem; max-width: 1100px; }
+
+/* ==========================================================================
+   ENCABEZADO DE CADA SECCIÓN
+   ========================================================================== */
+.vista__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.75rem;
+}
+
+.vista__header h1 { font-size: 1.6rem; margin-bottom: 0.25rem; }
+.vista__header p  { color: var(--gris-texto); font-size: 0.92rem; max-width: 62ch; }
+.vista__acciones  { display: flex; gap: 0.5rem; }
+
+.subtitulo { font-size: 1.1rem; margin: 2.25rem 0 1rem; }
+
+/* ==========================================================================
+   FILTROS Y TIRA DE DÍAS
+   ========================================================================== */
+.filtros {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.75rem;
+  padding: 1.1rem;
+  border: 1px solid rgba(244, 244, 242, 0.1);
+  border-radius: var(--radius);
+  margin-bottom: 1.1rem;
+}
+
+.campo--inline { margin-bottom: 0; }
+
+.dias { display: flex; gap: 0.5rem; overflow-x: auto; padding-bottom: 0.5rem; margin-bottom: 0.9rem; }
+
+.dia {
+  flex: 0 0 auto;
+  padding: 0.55rem 1rem;
+  border-radius: 999px;
+  border: 1px solid rgba(244, 244, 242, 0.15);
+  background: transparent;
+  color: var(--gris-texto);
+  font-family: inherit;
+  font-size: 0.85rem;
+  cursor: pointer;
+  text-transform: capitalize;
+}
+
+.dia:hover { color: var(--hueso); border-color: var(--verde-medio); }
+.dia.is-active { background-color: var(--verde-medio); border-color: var(--verde-medio); color: var(--negro); font-weight: 600; }
+
+/* Referencia de colores del calendario */
+.leyenda { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: var(--gris-texto); margin-bottom: 1.25rem; flex-wrap: wrap; }
+.punto { width: 9px; height: 9px; border-radius: 50%; display: inline-block; margin-left: 0.75rem; }
+.punto--libre   { background-color: var(--verde-medio); }
+.punto--promo   { background-color: var(--azul); }
+.punto--ocupado { background-color: rgba(244, 244, 242, 0.25); }
+
+/* ==========================================================================
+   LISTADO DE CANCHAS CON SUS TURNOS
+   ========================================================================== */
+.canchas { display: grid; gap: 0.9rem; }
+
+.cancha {
+  display: grid;
+  grid-template-columns: 240px 1fr;
+  gap: 1.25rem;
+  padding: 1.25rem;
+  border: 1px solid rgba(244, 244, 242, 0.1);
+  border-radius: var(--radius);
+  transition: border-color 0.2s ease;
+}
+
+.cancha:hover { border-color: rgba(64, 145, 108, 0.6); }
+
+.cancha__info h3   { font-size: 1.02rem; margin-bottom: 0.2rem; }
+.cancha__meta      { font-size: 0.82rem; color: var(--gris-texto); }
+.cancha__precio    { font-size: 1.15rem; font-weight: 700; color: var(--verde-medio); margin-top: 0.4rem; }
+.cancha__precio span { font-size: 0.8rem; font-weight: 400; color: var(--gris-texto); }
+.cancha__libres    { font-size: 0.8rem; color: var(--gris-texto); margin-top: 0.2rem; }
+
+.turnos { display: flex; flex-wrap: wrap; gap: 0.45rem; align-content: flex-start; }
+.turnos__vacio { font-size: 0.85rem; color: var(--gris-texto); }
+
+/* Solo los turnos disponibles reaccionan al mouse */
+.chip--libre:not(:disabled),
+.chip--promo:not(:disabled) { cursor: pointer; transition: transform 0.15s ease; }
+.chip--libre:not(:disabled):hover,
+.chip--promo:not(:disabled):hover { transform: translateY(-2px); }
+.chip:disabled { cursor: not-allowed; }
+
+/* ==========================================================================
+   TARJETAS DE DATOS (números grandes)
+   ========================================================================== */
+.datos { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.85rem; margin-bottom: 1.5rem; }
+
+.dato {
+  padding: 1.1rem;
+  border: 1px solid rgba(244, 244, 242, 0.1);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.dato--destacado { background-color: rgba(64, 145, 108, 0.14); border-color: transparent; }
+.dato__valor { font-size: 1.7rem; font-weight: 700; }
+.dato__label { font-size: 0.8rem; color: var(--gris-texto); }
+
+/* ==========================================================================
+   RESERVAS
+   ========================================================================== */
+.lista, .grilla { display: grid; gap: 1rem; }
+.grilla { grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+
+.reserva {
+  padding: 1.25rem;
+  border: 1px solid rgba(244, 244, 242, 0.1);
+  border-radius: var(--radius);
+  border-left: 3px solid var(--verde-medio);
+}
+
+.reserva--pendiente { border-left-color: var(--azul); }
+.reserva--cancelada { border-left-color: rgba(244, 244, 242, 0.2); opacity: 0.6; }
+
+.reserva__cabecera { display: flex; justify-content: space-between; gap: 1rem; margin-bottom: 1rem; }
+.reserva__cabecera h3 { font-size: 1.02rem; }
+
+.reserva__subtitulo { font-size: 0.82rem; color: var(--gris-texto); margin-bottom: 0.5rem; }
+
+.reserva__jugadores ul { list-style: none; display: grid; gap: 0.4rem; }
+.reserva__jugadores li {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  font-size: 0.9rem;
+  padding: 0.5rem 0.7rem;
+  background-color: rgba(244, 244, 242, 0.04);
+  border-radius: 8px;
+}
+
+.monto--ok   { color: #8FE3BC; }
+.monto--debe { color: #FFC978; }
+
+.reserva__acciones { display: flex; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+
+/* Etiqueta de estado, reutilizada en tablas */
+.estado {
+  padding: 0.25rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  white-space: nowrap;
+  background-color: rgba(244, 244, 242, 0.08);
+  color: var(--gris-texto);
+  height: fit-content;
+}
+
+.estado--confirmada, .estado--abierto  { background-color: rgba(64, 145, 108, 0.2); color: #8FE3BC; }
+.estado--pendiente                     { background-color: rgba(58, 134, 255, 0.2); color: #9CC2FF; }
+.estado--cancelada                     { background-color: rgba(255, 107, 107, 0.16); color: #FF8B8B; }
+
+/* ==========================================================================
+   TORNEOS
+   ========================================================================== */
+.torneo {
+  padding: 1.25rem;
+  border: 1px solid rgba(244, 244, 242, 0.1);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.torneo__top { display: flex; justify-content: space-between; gap: 0.75rem; align-items: flex-start; }
+.torneo__top h3 { font-size: 1.05rem; }
+.torneo__desc { font-size: 0.88rem; color: var(--gris-texto); }
+.torneo .btn { margin-top: auto; text-align: center; }
+
+/* Barra de cupo del torneo */
+.cupo { margin: 0.5rem 0; }
+.cupo__barra { height: 6px; border-radius: 999px; background-color: rgba(244, 244, 242, 0.1); overflow: hidden; }
+.cupo__barra span { display: block; height: 100%; background-color: var(--verde-medio); transition: width 0.4s ease; }
+.cupo p { font-size: 0.78rem; color: var(--gris-texto); margin-top: 0.35rem; }
+
+/* ==========================================================================
+   TABLAS (ranking, historial, usuarios, reportes)
+   ========================================================================== */
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+  border: 1px solid rgba(244, 244, 242, 0.1);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.tabla th {
+  text-align: left;
+  padding: 0.85rem 1rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--gris-texto);
+  background-color: rgba(244, 244, 242, 0.04);
+}
+
+.tabla td { padding: 0.8rem 1rem; border-top: 1px solid rgba(244, 244, 242, 0.07); }
+.tabla tr.is-yo { background-color: rgba(64, 145, 108, 0.12); }
+.tabla .pos    { color: var(--gris-texto); width: 40px; }
+.tabla .puntos { font-weight: 700; color: var(--verde-medio); }
+
+.acciones-fila { display: flex; gap: 0.35rem; }
+
+.select-mini {
+  padding: 0.35rem 0.5rem;
+  border-radius: 8px;
+  border: 1px solid rgba(244, 244, 242, 0.18);
+  background-color: rgba(244, 244, 242, 0.04);
+  color: var(--hueso);
+  font-family: inherit;
+  font-size: 0.82rem;
+}
+.select-mini option { background-color: var(--negro); }
+
+/* ==========================================================================
+   PREMIOS, PROMOS Y CANCHAS DEL PROVEEDOR
+   ========================================================================== */
+.premio, .cancha-card, .promo-card {
+  padding: 1.25rem;
+  border: 1px solid rgba(244, 244, 242, 0.1);
+  border-radius: var(--radius);
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.premio h3, .cancha-card h3, .promo-card h3 { font-size: 1rem; }
+.premio p { font-size: 0.85rem; color: var(--gris-texto); }
+.premio__costo { font-weight: 700; color: var(--verde-medio); }
+.premio .btn { margin-top: auto; text-align: center; }
+.premio--lejos { opacity: 0.55; }
+
+.cancha-card--baja, .promo-card--off { opacity: 0.55; }
+
+/* La promo-card lleva una foto real arriba, así se ve como una promoción
+   de verdad y no solo como texto con un porcentaje. */
+.promo-card {
+  padding: 0;
+  overflow: hidden;
+  gap: 0;
+}
+
+.promo-card__foto {
+  position: relative;
+  height: 120px;
+}
+
+.promo-card__foto img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.promo-card__pct {
+  position: absolute;
+  top: 0.6rem;
+  left: 0.6rem;
+  padding: 0.3rem 0.7rem;
+  border-radius: 999px;
+  background-color: var(--azul);
+  color: var(--negro);
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.promo-card__cuerpo {
+  padding: 1.1rem 1.25rem 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+/* Movimientos de puntos */
+.movimientos { list-style: none; display: grid; gap: 0.4rem; }
+.movimientos li {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 1rem;
+  align-items: center;
+  padding: 0.7rem 0.9rem;
+  background-color: rgba(244, 244, 242, 0.04);
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+/* ==========================================================================
+   NOTIFICACIONES
+   ========================================================================== */
+.notis { list-style: none; display: grid; gap: 0.5rem; }
+
+.noti {
+  display: flex;
+  gap: 0.85rem;
+  padding: 0.9rem 1rem;
+  border: 1px solid rgba(244, 244, 242, 0.08);
+  border-radius: var(--radius);
+}
+
+/* Las no leídas se distinguen con el acento azul, no con negrita */
+.noti--nueva { border-left: 3px solid var(--azul); background-color: rgba(58, 134, 255, 0.06); }
+.noti p { font-size: 0.92rem; }
+.noti__icono { font-size: 1.1rem; }
+
+/* ==========================================================================
+   GRÁFICO DE BARRAS DEL ADMINISTRADOR (hecho con CSS, sin librerías)
+   ========================================================================== */
+.barras { display: grid; gap: 0.6rem; }
+
+.barra { display: grid; grid-template-columns: 130px 1fr 40px; gap: 0.75rem; align-items: center; font-size: 0.85rem; }
+.barra__label { color: var(--gris-texto); }
+.barra__pista { height: 12px; background-color: rgba(244, 244, 242, 0.07); border-radius: 999px; overflow: hidden; }
+.barra__pista span { display: block; height: 100%; background-color: var(--verde-medio); transition: width 0.5s ease; }
+.barra__valor { text-align: right; font-weight: 600; }
+
+/* ==========================================================================
+   ESTADO VACÍO
+   ========================================================================== */
+.vacio {
+  padding: 3rem 1.5rem;
+  text-align: center;
+  border: 1px dashed rgba(244, 244, 242, 0.15);
+  border-radius: var(--radius);
+  color: var(--gris-texto);
+}
+.vacio .btn { margin-top: 1rem; }
+
+/* ==========================================================================
+   MODAL
+   ========================================================================== */
+.modal { position: fixed; inset: 0; z-index: 200; display: grid; place-items: center; padding: 1.5rem; }
+
+.modal__fondo { position: absolute; inset: 0; background-color: rgba(0, 0, 0, 0.65); backdrop-filter: blur(3px); }
+
+.modal__caja {
+  position: relative;
+  width: min(520px, 100%);
+  max-height: 88vh;
+  overflow-y: auto;
+  padding: 1.75rem;
+  border-radius: 18px;
+  background-color: #10241C;         /* verde muy oscuro: separa el modal del fondo */
+  border: 1px solid rgba(244, 244, 242, 0.12);
+  animation: aparecer 0.18s ease-out; /* responde a una acción del usuario */
+}
+
+@keyframes aparecer {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.modal__cerrar {
+  position: absolute;
+  top: 0.9rem;
+  right: 1rem;
+  background: none;
+  border: none;
+  color: var(--gris-texto);
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.modal__caja h2 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+.modal__sub     { font-size: 0.88rem; color: var(--gris-texto); margin-bottom: 1.25rem; }
+.modal__label   { font-size: 0.85rem; color: var(--gris-texto); margin: 1rem 0 0.5rem; }
+
+.modal__promo {
+  padding: 0.6rem 0.85rem;
+  border-radius: 10px;
+  background-color: rgba(58, 134, 255, 0.12);
+  color: #9CC2FF;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.modal__acciones { display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 1.5rem; }
+
+/* Opciones tipo radio (individual / equipo) */
+.opciones { display: grid; gap: 0.5rem; }
+
+.opcion {
+  display: flex;
+  gap: 0.7rem;
+  align-items: flex-start;
+  padding: 0.85rem;
+  border: 1px solid rgba(244, 244, 242, 0.14);
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+.opcion span { display: flex; flex-direction: column; font-size: 0.85rem; color: var(--gris-texto); }
+.opcion strong { color: var(--hueso); font-size: 0.95rem; }
+.opcion:has(input:checked) { border-color: var(--azul); background-color: rgba(58, 134, 255, 0.08); }
+
+/* Lista de jugadores para invitar */
+.invitados { display: grid; gap: 0.35rem; max-height: 180px; overflow-y: auto; }
+
+.invitado {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.55rem 0.7rem;
+  border-radius: 8px;
+  background-color: rgba(244, 244, 242, 0.04);
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+.invitado em { font-style: normal; font-size: 0.78rem; color: var(--gris-texto); margin-left: 0.4rem; }
+
+/* Resumen del pago dividido */
+.resumen {
+  margin-top: 1.25rem;
+  padding: 1rem;
+  border-radius: 12px;
+  background-color: rgba(244, 244, 242, 0.05);
+  display: grid;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+}
+
+.resumen div { display: flex; justify-content: space-between; gap: 1rem; }
+.resumen span { color: var(--gris-texto); }
+.resumen__destacado {
+  padding-top: 0.55rem;
+  border-top: 1px solid rgba(244, 244, 242, 0.12);
+  font-size: 1.05rem;
+}
+.resumen__destacado strong { color: var(--verde-medio); }
+
+/* ==========================================================================
+   VENTANA DE AGRADECIMIENTO (después de la simulación de pago)
+   ========================================================================== */
+.pago-ok { text-align: center; padding: 0.5rem 0 0.25rem; }
+
+.pago-ok__icono {
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 1.1rem;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background-color: rgba(64, 145, 108, 0.18);
+  border: 1px solid rgba(64, 145, 108, 0.5);
+  color: var(--verde-medio);
+  font-size: 1.7rem;
+  font-weight: 700;
+  animation: aparecer 0.25s ease-out;
+}
+
+.pago-ok h2 { margin-bottom: 0.4rem; }
+.pago-ok p { color: var(--gris-texto); font-size: 0.92rem; margin-bottom: 0.4rem; }
+.pago-ok__nota { font-size: 0.8rem; opacity: 0.75; margin-bottom: 1.5rem; }
+
+/* ==========================================================================
+   AVISOS (toasts)
+   ========================================================================== */
+.toasts { position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 300; display: grid; gap: 0.5rem; }
+
+.toast {
+  padding: 0.8rem 1.1rem;
+  border-radius: 10px;
+  background-color: var(--verde-medio);
+  color: var(--negro);
+  font-size: 0.88rem;
+  font-weight: 600;
+  animation: entrarToast 0.2s ease-out;
+  max-width: 320px;
+}
+
+.toast--error { background-color: #FF8B8B; }
+
+@keyframes entrarToast {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+/* ==========================================================================
+   RESPONSIVE
+   ========================================================================== */
+@media (max-width: 980px) {
+  .filtros { grid-template-columns: 1fr 1fr; }
+  .cancha  { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 760px) {
+  .topbar__burger { display: flex; }
+  .layout { grid-template-columns: 1fr; }
+
+  /* El menú lateral se esconde y aparece al tocar la hamburguesa */
+  .sidebar {
+    position: fixed;
+    top: 62px; bottom: 0; left: 0;
+    width: 230px;
+    background-color: var(--negro);
+    transform: translateX(-100%);
+    transition: transform 0.25s ease;
+    z-index: 40;
+  }
+
+  .menu-abierto .sidebar { transform: translateX(0); }
+
+  .vista { padding: 1.25rem 1rem 3rem; }
+  .usuario { display: none; }
+  .fila { grid-template-columns: 1fr; }
+  .tabla { display: block; overflow-x: auto; white-space: nowrap; }
+}

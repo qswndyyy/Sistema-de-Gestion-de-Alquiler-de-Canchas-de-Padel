@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PadelConnect — Panel</title>
+  <link rel="icon" href="assets/favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="app.css" />
+</head>
+<body class="body--app">
+
+  <!-- ============================================================
+       BARRA SUPERIOR
+       Es igual para los 3 roles; lo que cambia es el menú lateral.
+       ============================================================ -->
+  <header class="topbar">
+    <button class="topbar__burger" id="btnMenu" aria-label="Abrir menú">
+      <span></span><span></span><span></span>
+    </button>
+
+    <a href="index.html" class="navbar__logo">
+      <img src="assets/logo.png" alt="PadelConnect" />
+    </a>
+
+    <div class="topbar__derecha">
+      <!-- Campanita: el número sale de las notificaciones sin leer -->
+      <button class="campana" id="btnCampana" aria-label="Ver notificaciones">
+        🔔<span class="campana__badge is-oculto" id="badgeNotis">0</span>
+      </button>
+
+      <div class="usuario">
+        <span class="usuario__nombre" id="usuarioNombre">—</span>
+        <span class="usuario__rol" id="usuarioRol">—</span>
+      </div>
+
+      <button class="btn btn--ghost" id="btnSalir">Salir</button>
+    </div>
+  </header>
+
+  <div class="layout">
+    <!-- ============================================================
+         MENÚ LATERAL
+         Lo genera app.js según el rol del usuario logueado.
+         ============================================================ -->
+    <nav class="sidebar" id="sidebar"></nav>
+
+    <!-- ============================================================
+         VISTA ACTIVA
+         Acá se dibuja la sección elegida (buscar, reservas, torneos...).
+         ============================================================ -->
+    <main class="vista" id="vista"></main>
+  </div>
+
+  <!-- ============================================================
+       MODAL REUTILIZABLE
+       Se usa para reservar, crear torneo, cargar cancha, etc.
+       ============================================================ -->
+  <div class="modal is-oculto" id="modal">
+    <div class="modal__fondo" data-cerrar-modal></div>
+    <div class="modal__caja" role="dialog" aria-modal="true">
+      <button class="modal__cerrar" data-cerrar-modal aria-label="Cerrar">✕</button>
+      <div id="modalContenido"></div>
+    </div>
+  </div>
+
+  <!-- Avisos cortos que aparecen abajo a la derecha tras cada acción -->
+  <div class="toasts" id="toasts"></div>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Iniciar sesión — PadelConnect</title>
+  <link rel="icon" href="assets/favicon.png" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="body--auth">
+
+  <!-- Blob de fondo: mismo recurso visual que el hero, para que se note
+       que es la misma marca aunque sea otra ventana -->
+  <div class="hero__blob" aria-hidden="true"></div>
+
+  <main class="auth">
+    <!-- ---------- Columna izquierda: identidad + cuentas de prueba ---------- -->
+    <aside class="auth__aside">
+      <a href="index.html" class="navbar__logo">
+        <img src="assets/logo.png" alt="PadelConnect" />
+      </a>
+      <h1 class="auth__claim">Entrá y tu próximo partido ya está a tres clics.</h1>
+      <p class="auth__texto">
+        Cada rol entra a su propio panel: el jugador reserva, el proveedor
+        administra sus canchas y el administrador supervisa todo el sistema.
+      </p>
+
+      <!-- Cuentas cargadas en los datos de demo. Al hacer clic se completan
+           solos los campos, así se prueba rápido en la exposición. -->
+      <div class="auth__demos">
+        <p class="auth__demos-titulo">Cuentas de prueba</p>
+        <button class="demo" data-email="juan@demo.com" data-pass="1234">
+          <strong>Jugador</strong><span>juan@demo.com · 1234</span>
+        </button>
+        <button class="demo" data-email="club@demo.com" data-pass="1234">
+          <strong>Proveedor de cancha</strong><span>club@demo.com · 1234</span>
+        </button>
+        <button class="demo" data-email="admin@demo.com" data-pass="1234">
+          <strong>Administrador</strong><span>admin@demo.com · 1234</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- ---------- Columna derecha: los dos formularios ---------- -->
+    <section class="auth__panel">
+      <!-- Pestañas: alternan entre ingreso y registro sin cambiar de página -->
+      <div class="tabs" id="authTabs">
+        <button class="tabs__btn is-active" data-tab="ingreso">Ingresar</button>
+        <button class="tabs__btn" data-tab="registro">Crear cuenta</button>
+      </div>
+
+      <!-- FORM INGRESO -->
+      <form class="form" id="formIngreso">
+        <label class="campo">
+          <span>Email</span>
+          <input type="email" name="email" required placeholder="tu@email.com" autocomplete="email">
+        </label>
+
+        <label class="campo">
+          <span>Contraseña</span>
+          <input type="password" name="contrasena" required placeholder="••••" autocomplete="current-password">
+        </label>
+
+        <!-- Mensaje de error: se llena desde auth.js, arranca vacío -->
+        <p class="form__error" id="errorIngreso" role="alert"></p>
+
+        <button type="submit" class="btn btn--primary btn--lg btn--bloque">Ingresar</button>
+      </form>
+
+      <!-- FORM REGISTRO (oculto por defecto) -->
+      <form class="form is-oculto" id="formRegistro">
+        <label class="campo">
+          <span>Nombre y apellido</span>
+          <input type="text" name="nombre" required placeholder="Juan Pérez">
+        </label>
+
+        <label class="campo">
+          <span>Email</span>
+          <input type="email" name="email" required placeholder="tu@email.com">
+        </label>
+
+        <label class="campo">
+          <span>Contraseña</span>
+          <input type="password" name="contrasena" required minlength="4" placeholder="Mínimo 4 caracteres">
+        </label>
+
+        <!-- El rol define a qué panel entra el usuario después de registrarse -->
+        <label class="campo">
+          <span>Tipo de cuenta</span>
+          <select name="rol">
+            <option value="cliente">Jugador</option>
+            <option value="proveedor">Proveedor de cancha</option>
+          </select>
+        </label>
+
+        <p class="form__error" id="errorRegistro" role="alert"></p>
+
+        <button type="submit" class="btn btn--primary btn--lg btn--bloque">Crear cuenta</button>
+      </form>
+
+      <p class="auth__volver"><a href="index.html">← Volver al inicio</a></p>
+    </section>
+  </main>
+
+  <!-- data.js va primero: define los datos y el almacén que usa auth.js -->
+  <script src="data.js"></script>
+  <script src="auth.js"></script>
+</body>
+</html>
